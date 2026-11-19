@@ -1,37 +1,36 @@
 # frontvalue-assessment
 
-# React + TypeScript + Vite
+React frontend lives in `src/client`. The standalone Express API backend lives in `src/server`.
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Run locally
 
-Currently, two official plugins are available:
+Use Node.js 26.13.1 and pnpm 12.21.0.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+In project root, run:
 
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```sh
+pnpm install
+pnpm dev
+# src/client and src/server will now start
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Open the URL printed by Vite. The client fetches `GET /api/hello` through Vite's proxy to Express on port 3000.
+
+## Build
+
+```sh
+pnpm --filter @frontvalue/client build
+pnpm --filter @frontvalue/server build
+```
+
+`pnpm build` builds both packages. `pnpm start` runs the compiled Express API on port 3000.
+
+For production, serve `src/client/dist` from a static host and forward `/api` requests to the Express API.
+
+## Checks
+
+```sh
+pnpm lint
+pnpm format:check
+pnpm test
+```
