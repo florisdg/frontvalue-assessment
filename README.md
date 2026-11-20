@@ -14,7 +14,7 @@ pnpm dev
 # src/client and src/server will now start
 ```
 
-Open the URL printed by Vite. The client fetches `GET /api/hello` through Vite's proxy to Express on port 3000.
+Open the URL printed by Vite. On page load the client fetches `GET /api/jokes` through Vite's proxy to Express on port 3000. Express retrieves ten random jokes from the Chuck Norris API.
 
 ## Build
 

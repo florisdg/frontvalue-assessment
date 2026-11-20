@@ -1,31 +1,13 @@
-import { useEffect, useState } from 'react'
+import { Title } from '@mantine/core'
 import { AppLayout } from './components/AppLayout.tsx'
+import { JokeList } from './components/JokeList.tsx'
 
-/** Shows the Express greeting after the page loads. */
+/** Renders the Chuck Norris jokes page. */
 export default function App() {
-  const [message, setMessage] = useState('Loading…')
-
-  useEffect(() => {
-    const request = new AbortController()
-
-    fetch('/api/hello', { signal: request.signal })
-      .then((response) => {
-        if (!response.ok) throw new Error(`HTTP ${response.status}`)
-        return response.text()
-      })
-      .then(setMessage)
-      .catch(() => {
-        if (request.signal.aborted) return
-        setMessage('Could not load the Express greeting.')
-      })
-
-    return () => request.abort()
-  }, [])
-
   return (
     <AppLayout>
-      <h1>Hello react</h1>
-      <p role="status">{message}</p>
+      <Title mb="md">Chuck Norris jokes</Title>
+      <JokeList />
     </AppLayout>
   )
 }

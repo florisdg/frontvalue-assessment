@@ -14,6 +14,7 @@ While developing I used Codex with GPT 6.2 Sol. Depending on the difficulty of m
 - friday 20 november
   - (5 min) create AGENTS.md for basic instructions
   - (25 mins) setup component library for frontend, create basic app layout
+  - (10 mins) create JokeList component and /api/jokes endpoint that returns 10 jokes
 
 ## Considerations
 
