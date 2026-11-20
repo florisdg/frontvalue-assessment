@@ -33,6 +33,30 @@ test('GET /api/jokes', async (t) => {
     )
   })
 
+  await t.test('GET /api/jokes/random fetches and returns one joke', async (t) => {
+    const joke = { id: 'random-joke', value: 'Random joke' }
+    const upstream = t.mock.method(globalThis, 'fetch', async () => Response.json({ ...joke, categories: [] }))
+
+    const response = await fetchFromApp(`${url}/random`)
+
+    assert.equal(response.status, 200)
+    assert.equal(response.headers.get('cache-control'), 'no-store')
+    assert.deepEqual(await response.json(), joke)
+    assert.deepEqual(
+      upstream.mock.calls.map((call) => call.arguments[0]),
+      ['https://api.chucknorris.io/jokes/random'],
+    )
+  })
+
+  await t.test('GET /api/jokes/random returns 502 on an upstream error', async (t) => {
+    t.mock.method(globalThis, 'fetch', async () => new Response(null, { status: 503 }))
+
+    const response = await fetchFromApp(`${url}/random`)
+
+    assert.equal(response.status, 502)
+    assert.deepEqual(await response.json(), { error: 'Could not load joke.' })
+  })
+
   for (const [scenario, upstreamResponse] of [
     ['an upstream HTTP error', () => new Response(null, { status: 503 })],
     ['an invalid joke', () => Response.json({ id: 'joke-1' })],

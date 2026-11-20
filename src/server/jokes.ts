@@ -24,3 +24,13 @@ export const getJokes: RequestHandler = async (_request, response) => {
     response.status(502).json({ error: 'Could not load jokes.' })
   }
 }
+
+/** Serves one random Chuck Norris joke. */
+export const getRandomJoke: RequestHandler = async (_request, response) => {
+  try {
+    const joke = await fetchRandomJoke(AbortSignal.timeout(5000))
+    response.set('Cache-Control', 'no-store').json(joke)
+  } catch {
+    response.status(502).json({ error: 'Could not load joke.' })
+  }
+}
