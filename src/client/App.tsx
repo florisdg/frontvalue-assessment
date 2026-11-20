@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { AppLayout } from './components/AppLayout.tsx'
 
 /** Shows the Express greeting after the page loads. */
 export default function App() {
@@ -22,9 +23,9 @@ export default function App() {
   }, [])
 
   return (
-    <main>
+    <AppLayout>
       <h1>Hello react</h1>
       <p role="status">{message}</p>
-    </main>
+    </AppLayout>
   )
 }

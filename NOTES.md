@@ -12,7 +12,8 @@ While developing I used Codex with GPT 6.2 Sol. Depending on the difficulty of m
     - first considered Next.js(includes backend), then Vite+. Finally decided on standard Vite for frontend and Express.js for a separate backend.
   - (1hr) scaffold project, initialize frontend and backend code
 - friday 20 november
-  - create AGENTS.md for basic instructions
+  - (5 min) create AGENTS.md for basic instructions
+  - (25 mins) setup component library for frontend, create basic app layout
 
 ## Considerations
 
