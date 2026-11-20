@@ -15,10 +15,14 @@ While developing I used Codex with GPT 6.2 Sol. Depending on the difficulty of m
   - (5 min) create AGENTS.md for basic instructions
   - (25 mins) setup component library for frontend, create basic app layout
   - (10 mins) create JokeList component and /api/jokes endpoint that returns 10 jokes
+  - (30 mins) create /api/jokes/random endpoint and fetch one random joke every 5 secs. Turn fetching on/off with JokeTimer component
+  - (45 mins) add ability to favorite up to 10 jokes, store them in localStorage.
 
-## Considerations
+## Considerations / decisions
 
 - To keep project simple and small size no fetching library or state management library was used for React. Instead, API's are consumed with basic `fetch()` and React's builtin state management `useState()`. On a larger project I recommend using a state management library and fetching library. (I personally like Zustand for state and TanStack Query for fetching)
 - As project development goes on, make sure AGENTS.md is always up-to-date with the current state of the project.
   - Consider creating specific skills for agents in `.agents/skills`
-  - Consider creating a CONVENTIONS.md file  and point the AGENTS.md to it. This file may contain a style guide and code conventions the agent should use.
+  - Consider creating a CONVENTIONS.md file and point the AGENTS.md to it. This file may contain a style guide and code conventions the agent should use.
+- favorite jokes are stored in localStorage for persistence, but should really be stored in a database. I did consider `sqlite` but wanted to keep the project small.
+- No proper router has been setup for the frontend. There are no true URLs you can navigate to.

@@ -8,7 +8,7 @@ import { type Joke, parseFavorites, toggleFavorite } from './state/favorites.ts'
 const EMPTY_FAVORITES: Joke[] = []
 
 /** Root of the app
- * Shares saved jokes across the home and favorites pages. 
+ * Shares saved jokes across the home and favorites pages.
  * */
 export default function App() {
   const [hash] = useHash({ getInitialValueInEffect: false })

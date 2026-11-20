@@ -1,3 +1,5 @@
+// helpers to manage favorites in browser storage, and to enforce the maximum of ten jokes
+
 export const MAX_FAVORITES = 10
 
 export type Joke = { id: string; value: string }
