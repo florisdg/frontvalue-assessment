@@ -7,6 +7,7 @@
 - TypeScript
 - Vite
 - React frontend lives in `src/client`
+  - Uses Mantine UI as component library: https://mantine.dev/core/package/
   - create components under `src/client/components`
 - Express.js backend lives in `src/server`
 
