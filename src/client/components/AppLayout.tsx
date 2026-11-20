@@ -2,8 +2,13 @@ import { AppShell, Burger, Group, NavLink, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import type { ReactNode } from 'react'
 
+export interface AppLayoutProps {
+  children: ReactNode
+  page: 'home' | 'favorites'
+}
+
 /** Adds a header and responsive navigation around the page content. */
-export function AppLayout({ children }: { children: ReactNode }) {
+export function AppLayout({ children, page }: AppLayoutProps) {
   const [opened, { toggle, close }] = useDisclosure()
 
   return (
@@ -24,10 +29,23 @@ export function AppLayout({ children }: { children: ReactNode }) {
       </AppShell.Header>
 
       <AppShell.Navbar id="main-navigation" aria-label="Main navigation" visibleFrom={opened ? undefined : 'sm'} p="md">
-        <NavLink href="#home" label="Home" aria-current="page" active onClick={close} />
+        <NavLink
+          href="#home"
+          label="Home"
+          active={page === 'home'}
+          aria-current={page === 'home' ? 'page' : undefined}
+          onClick={close}
+        />
+        <NavLink
+          href="#favorites"
+          label="Favorites"
+          active={page === 'favorites'}
+          aria-current={page === 'favorites' ? 'page' : undefined}
+          onClick={close}
+        />
       </AppShell.Navbar>
 
-      <AppShell.Main id="home">{children}</AppShell.Main>
+      <AppShell.Main>{children}</AppShell.Main>
     </AppShell>
   )
 }

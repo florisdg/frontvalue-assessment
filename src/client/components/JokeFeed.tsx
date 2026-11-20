@@ -1,13 +1,18 @@
 import { Text } from '@mantine/core'
 import { useEffect, useRef, useState } from 'react'
+import type { Joke } from '../state/favorites.ts'
 import { JokeList } from './JokeList.tsx'
 import { JokeTimer } from './JokeTimer.tsx'
 
-type Joke = { id: string; value: string }
 type JokeEntry = Joke & { entryId: number }
 
+export interface JokeFeedProps {
+  favorites: Joke[]
+  onToggleFavorite: (joke: Joke) => void
+}
+
 /** Loads the initial joke list and keeps the ten most recently added entries. */
-export function JokeFeed() {
+export function JokeFeed(controls: JokeFeedProps) {
   const [jokes, setJokes] = useState<JokeEntry[] | 'loading' | 'error'>('loading')
   const nextEntryId = useRef(0)
 
@@ -48,7 +53,7 @@ export function JokeFeed() {
   return (
     <>
       <JokeTimer onTick={loadNextJoke} />
-      <JokeList jokes={jokes} />
+      <JokeList {...controls} jokes={jokes} />
     </>
   )
 }

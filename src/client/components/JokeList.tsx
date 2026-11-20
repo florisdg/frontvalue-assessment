@@ -1,12 +1,44 @@
-import { List } from '@mantine/core'
+import { ActionIcon, Group, List, Text } from '@mantine/core'
+import { type Joke, MAX_FAVORITES } from '../state/favorites.ts'
 
-/** Renders jokes in the order supplied by the caller. */
-export function JokeList({ jokes }: { jokes: readonly { entryId: number; value: string }[] }) {
+export interface JokeListProps {
+  jokes: readonly (Joke & { entryId: number | string })[]
+  favorites: Joke[]
+  onToggleFavorite: (joke: Joke) => void
+}
+
+/** Renders jokes with a star that toggles their saved state. */
+export function JokeList({ jokes, favorites, onToggleFavorite }: JokeListProps) {
+  const atLimit = favorites.length >= MAX_FAVORITES
+
   return (
-    <List spacing="sm" listStyleType="none">
-      {jokes.map(({ entryId, value }) => (
-        <List.Item key={entryId}>{value}</List.Item>
-      ))}
-    </List>
+    <>
+      <Text role="status" size="sm" c="dimmed" mb="sm">
+        {favorites.length} / {MAX_FAVORITES} favorites{atLimit ? ' · Remove a favorite to add another.' : ''}
+      </Text>
+      <List spacing="sm" listStyleType="none" role="list">
+        {jokes.map((joke) => {
+          const isFavorite = favorites.some(({ id }) => id === joke.id)
+          return (
+            <List.Item key={joke.entryId}>
+              <Group component="span" gap="xs" wrap="nowrap">
+                <ActionIcon
+                  variant="subtle"
+                  color={isFavorite ? 'yellow.8' : 'gray'}
+                  fz="xl"
+                  aria-label={`Favorite “${joke.value}”`}
+                  aria-pressed={isFavorite}
+                  disabled={atLimit && !isFavorite}
+                  onClick={() => onToggleFavorite(joke)}
+                >
+                  <span aria-hidden="true">{isFavorite ? '★' : '☆'}</span>
+                </ActionIcon>
+                <span>{joke.value}</span>
+              </Group>
+            </List.Item>
+          )
+        })}
+      </List>
+    </>
   )
 }

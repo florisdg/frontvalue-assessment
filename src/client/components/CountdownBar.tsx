@@ -1,16 +1,14 @@
 import { Progress } from '@mantine/core'
 import { useEffect, useEffectEvent, useState } from 'react'
 
-/** Fills over each countdown and runs one cancellable callback when it elapses. */
-export function CountdownBar({
-  countdown,
-  running,
-  onElapsed,
-}: {
+export interface CountdownBarProps {
   countdown: number
   running: boolean
   onElapsed: (signal: AbortSignal) => Promise<void>
-}) {
+}
+
+/** Fills over each countdown and runs one cancellable callback when it elapses. */
+export function CountdownBar({ countdown, running, onElapsed }: CountdownBarProps) {
   const [elapsed, setElapsed] = useState(0)
   const completeCountdown = useEffectEvent(onElapsed)
 

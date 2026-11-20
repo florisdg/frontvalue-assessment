@@ -4,8 +4,12 @@ import { CountdownBar } from './CountdownBar.tsx'
 
 const COUNTDOWN_SECONDS = 5
 
+export interface JokeTimerProps {
+  onTick: (signal: AbortSignal) => Promise<void>
+}
+
 /** Lets the user start and stop the joke countdown. */
-export function JokeTimer({ onTick }: { onTick: (signal: AbortSignal) => Promise<void> }) {
+export function JokeTimer({ onTick }: JokeTimerProps) {
   const [running, setRunning] = useState(false)
 
   return (
