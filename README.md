@@ -1,6 +1,6 @@
 # frontvalue-assessment
 
-React frontend lives in `src/client`. The standalone Express API backend lives in `src/server`.
+The React frontend lives in `src/client` and the Express API in `src/server`.
 
 ## Run locally
 
@@ -16,16 +16,17 @@ pnpm dev
 
 Open the URL printed by Vite. On page load the client fetches `GET /api/jokes` through Vite's proxy to Express on port 3000. Express returns ten random Chuck Norris jokes approved for a workplace audience by Gemini 3.1 Flash Lite via OpenRouter.
 
-## Build
+## Serve the production build
+
+After installing dependencies and setting the OpenRouter key, run from the project root:
 
 ```sh
-pnpm --filter @frontvalue/client build
-pnpm --filter @frontvalue/server build
+pnpm serve:prod
 ```
 
-`pnpm build` builds both packages. `pnpm start` runs the compiled Express API on port 3000.
+Open <http://localhost:3000>. Express serves the built client and `/api` on the same port.
 
-For production, serve `src/client/dist` from a static host and forward `/api` requests to the Express API.
+`pnpm build` writes the client and server builds to `src/client/dist` and `src/server/dist`. Run `pnpm start` to serve an existing build.
 
 ## Checks
 

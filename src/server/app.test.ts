@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict'
 import { once } from 'node:events'
+import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import test, { type TestContext } from 'node:test'
-import { app } from './app.ts'
+import { createApp } from './app.ts'
 import { moderateJokes } from './moderation.ts'
 
 const API_URL_WITH_CATEGORIES =
@@ -43,10 +46,15 @@ function mockProviders(t: TestContext, ...moderationResponses: Response[]) {
   return batches
 }
 
-test('GET /api/jokes', async (t) => {
+test('Express app', async (t) => {
+  const clientDirectory = await mkdtemp(join(tmpdir(), 'frontvalue-client-'))
+  t.after(() => rm(clientDirectory, { recursive: true }))
+  const clientHtml = '<h1>Chuck Norris jokes</h1>'
+  await writeFile(join(clientDirectory, 'index.html'), clientHtml)
+
   t.mock.property(process, 'env', { ...process.env, OPENROUTER_API_KEY: 'test-key' })
   const fetchFromApp = globalThis.fetch
-  const server = app.listen(0, '127.0.0.1')
+  const server = createApp(clientDirectory).listen(0, '127.0.0.1')
   t.after(() => {
     server.close()
   })
@@ -54,7 +62,15 @@ test('GET /api/jokes', async (t) => {
 
   const address = server.address()
   assert(address && typeof address !== 'string')
-  const url = `http://127.0.0.1:${address.port}/api/jokes`
+  const origin = `http://127.0.0.1:${address.port}`
+  const url = `${origin}/api/jokes`
+
+  await t.test('serves the built client at /', async () => {
+    const response = await fetchFromApp(origin)
+
+    assert.equal(response.status, 200)
+    assert.equal(await response.text(), clientHtml)
+  })
 
   await t.test('returns the first ten approved jokes from one batch', async (t) => {
     const batches = mockProviders(t, verdicts(0, false, ...Array<boolean>(13).fill(true)))
