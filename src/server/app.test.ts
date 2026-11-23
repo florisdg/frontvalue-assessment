@@ -3,6 +3,9 @@ import { once } from 'node:events'
 import test from 'node:test'
 import { app } from './app.ts'
 
+const API_URL_WITH_CATEGORIES =
+  'https://api.chucknorris.io/jokes/random?category=animal,career,celebrity,dev,fashion,food,history,money,movie,music,science,sport,travel'
+
 test('GET /api/jokes', async (t) => {
   const fetchFromApp = globalThis.fetch
   const server = app.listen(0, '127.0.0.1')
@@ -19,7 +22,7 @@ test('GET /api/jokes', async (t) => {
     const jokes = Array.from({ length: 10 }, (_, index) => ({ id: `joke-${index}`, value: `Joke ${index}` }))
     const remainingJokes = [...jokes]
     const upstream = t.mock.method(globalThis, 'fetch', async () =>
-      Response.json({ ...remainingJokes.shift(), categories: [] }),
+      Response.json({ ...remainingJokes.shift(), categories: ['dev'] }),
     )
 
     const response = await fetchFromApp(url)
@@ -29,13 +32,13 @@ test('GET /api/jokes', async (t) => {
     assert.deepEqual(await response.json(), jokes)
     assert.deepEqual(
       upstream.mock.calls.map((call) => call.arguments[0]),
-      Array(10).fill('https://api.chucknorris.io/jokes/random'),
+      Array(10).fill(API_URL_WITH_CATEGORIES),
     )
   })
 
   await t.test('GET /api/jokes/random fetches and returns one joke', async (t) => {
     const joke = { id: 'random-joke', value: 'Random joke' }
-    const upstream = t.mock.method(globalThis, 'fetch', async () => Response.json({ ...joke, categories: [] }))
+    const upstream = t.mock.method(globalThis, 'fetch', async () => Response.json({ ...joke, categories: ['dev'] }))
 
     const response = await fetchFromApp(`${url}/random`)
 
@@ -44,7 +47,7 @@ test('GET /api/jokes', async (t) => {
     assert.deepEqual(await response.json(), joke)
     assert.deepEqual(
       upstream.mock.calls.map((call) => call.arguments[0]),
-      ['https://api.chucknorris.io/jokes/random'],
+      [API_URL_WITH_CATEGORIES],
     )
   })
 
@@ -56,6 +59,19 @@ test('GET /api/jokes', async (t) => {
     assert.equal(response.status, 502)
     assert.deepEqual(await response.json(), { error: 'Could not load joke.' })
   })
+
+  for (const category of ['explicit', 'political', 'religion']) {
+    await t.test(`rejects a joke tagged ${category}`, async (t) => {
+      t.mock.method(globalThis, 'fetch', async () =>
+        Response.json({ id: 'blocked-joke', value: 'Blocked joke', categories: ['dev', category] }),
+      )
+
+      const response = await fetchFromApp(`${url}/random`)
+
+      assert.equal(response.status, 502)
+      assert.deepEqual(await response.json(), { error: 'Could not load joke.' })
+    })
+  }
 
   for (const [scenario, upstreamResponse] of [
     ['an upstream HTTP error', () => new Response(null, { status: 503 })],

@@ -14,7 +14,9 @@ export function JokeTimer({ onTick }: JokeTimerProps) {
 
   return (
     <Group mb="md">
-      <Button onClick={() => setRunning((current) => !current)}>{running ? '⏹️ Stop timer' : '▶️ Start timer'}</Button>
+      <Button onClick={() => setRunning((current) => !current)} title="Fetch a random joke every 5 seconds">
+        {running ? '⏹️ Stop timer' : '▶️ Start timer'}
+      </Button>
       <CountdownBar key={String(running)} countdown={COUNTDOWN_SECONDS} running={running} onElapsed={onTick} />
     </Group>
   )

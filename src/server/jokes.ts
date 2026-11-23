@@ -1,14 +1,41 @@
 import type { RequestHandler } from 'express'
 
-/** Fetches one joke and extracts the fields used by the client. */
+// custom list of categories that excludes `explicit`, `political`, and `religion` which are more likely to be inappropriate for a general audience
+// TODO: maybe also consider removing `history`?
+const allowedCategories = [
+  'animal',
+  'career',
+  'celebrity',
+  'dev',
+  'fashion',
+  'food',
+  'history',
+  'money',
+  'movie',
+  'music',
+  'science',
+  'sport',
+  'travel',
+]
+
+/** Fetches one joke from the allowed categories and extracts the fields used by the client. */
 async function fetchRandomJoke(signal: AbortSignal) {
-  const response = await fetch('https://api.chucknorris.io/jokes/random', { signal })
+  const response = await fetch(`https://api.chucknorris.io/jokes/random?category=${allowedCategories.join(',')}`, {
+    signal,
+  })
   if (!response.ok) throw new Error(`Chuck Norris API returned HTTP ${response.status}`)
 
   const joke: unknown = await response.json()
   if (typeof joke !== 'object' || joke === null) throw new Error('Invalid joke response')
   if (!('id' in joke) || typeof joke.id !== 'string' || !('value' in joke) || typeof joke.value !== 'string') {
     throw new Error('Invalid joke response')
+  }
+  if (
+    !('categories' in joke) ||
+    !Array.isArray(joke.categories) ||
+    joke.categories.some((category) => !allowedCategories.includes(category))
+  ) {
+    throw new Error('Unexpected joke categories')
   }
 
   return { id: joke.id, value: joke.value }
