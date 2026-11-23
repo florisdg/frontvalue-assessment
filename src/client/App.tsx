@@ -3,7 +3,8 @@ import { useHash, useLocalStorage } from '@mantine/hooks'
 import { AppLayout } from './components/AppLayout.tsx'
 import { FavoritesList } from './components/FavoritesList.tsx'
 import { JokeFeed } from './components/JokeFeed.tsx'
-import { type Joke, parseFavorites, toggleFavorite } from './state/favorites.ts'
+import type { Joke } from '../shared/joke.d.ts'
+import { parseFavorites, toggleFavorite } from './state/favorites.ts'
 
 const EMPTY_FAVORITES: Joke[] = []
 
@@ -32,7 +33,7 @@ export default function App() {
         <FavoritesList favorites={favorites} onToggleFavorite={onToggleFavorite} />
       ) : (
         <>
-          <Title mb="md">Chuck Norris jokes</Title>
+          <Title mb="md">Chuck Norris jokes (safe edition)</Title>
           <JokeFeed favorites={favorites} onToggleFavorite={onToggleFavorite} />
         </>
       )}

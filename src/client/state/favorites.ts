@@ -1,8 +1,8 @@
 // helpers to manage favorites in browser storage, and to enforce the maximum of ten jokes
 
-export const MAX_FAVORITES = 10
+import type { Joke } from '../../shared/joke.d.ts'
 
-export type Joke = { id: string; value: string }
+export const MAX_FAVORITES = 10
 
 /** Reads up to ten distinct jokes from browser storage. */
 export function parseFavorites(stored: string | undefined) {
