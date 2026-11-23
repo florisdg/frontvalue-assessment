@@ -22,6 +22,7 @@ While developing I used Codex with GPT 6.2 Sol. Depending on the difficulty of m
   - (1hr 30 mins) Research and implement joke filtering via LLM from OpenRouter.
     - researched with Codex how to implement a joke filtering system.
     - researched which model to use, landed upon a model that supports structured outputs. That way we get a reliable JSON structure
+  - (15 mins) add command `pnpm run serve:prod` to compile production build and let express.js serve the client bundle.
 
 ## Considerations / decisions
 
