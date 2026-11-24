@@ -1,5 +1,5 @@
 import { Text, Title } from '@mantine/core'
-import type { Joke } from '../state/favorites.ts'
+import type { Joke } from '../../shared/joke.d.ts'
 import { JokeList } from './JokeList.tsx'
 
 export interface FavoritesListProps {

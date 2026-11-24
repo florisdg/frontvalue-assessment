@@ -4,7 +4,7 @@ React frontend lives in `src/client`. The standalone Express API backend lives i
 
 ## Run locally
 
-Use Node.js 26.13.1 and pnpm 12.21.0.
+Use Node.js 26.13.1 and pnpm 12.21.0. Set `OPENROUTER_API_KEY` in `.env.local` in the project root or in the server environment.
 
 In project root, run:
 
@@ -14,7 +14,7 @@ pnpm dev
 # src/client and src/server will now start
 ```
 
-Open the URL printed by Vite. On page load the client fetches `GET /api/jokes` through Vite's proxy to Express on port 3000. Express retrieves ten random jokes from the Chuck Norris API.
+Open the URL printed by Vite. On page load the client fetches `GET /api/jokes` through Vite's proxy to Express on port 3000. Express returns ten random Chuck Norris jokes approved for a workplace audience by Gemini 3.1 Flash Lite via OpenRouter.
 
 ## Build
 

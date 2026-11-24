@@ -1,5 +1,6 @@
 import { ActionIcon, Group, List, Text } from '@mantine/core'
-import { type Joke, MAX_FAVORITES } from '../state/favorites.ts'
+import type { Joke } from '../../shared/joke.d.ts'
+import { MAX_FAVORITES } from '../state/favorites.ts'
 
 export interface JokeListProps {
   jokes: readonly (Joke & { entryId: number | string })[]

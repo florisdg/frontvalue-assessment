@@ -1,6 +1,6 @@
-import { Text } from '@mantine/core'
+import { Loader, Text } from '@mantine/core'
 import { useEffect, useRef, useState } from 'react'
-import type { Joke } from '../state/favorites.ts'
+import type { Joke } from '../../shared/joke.d.ts'
 import { JokeList } from './JokeList.tsx'
 import { JokeTimer } from './JokeTimer.tsx'
 
@@ -47,7 +47,13 @@ export function JokeFeed(controls: JokeFeedProps) {
     setJokes((current) => (Array.isArray(current) ? [...current, entry].slice(-10) : current))
   }
 
-  if (jokes === 'loading') return <Text role="status">Loading jokes…</Text>
+  if (jokes === 'loading')
+    return (
+      <Text role="status">
+        <Loader size="xs" mr="xs" />
+        Loading jokes…
+      </Text>
+    )
   if (jokes === 'error') return <Text role="alert">Could not load jokes.</Text>
 
   return (

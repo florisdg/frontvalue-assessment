@@ -17,6 +17,11 @@ While developing I used Codex with GPT 6.2 Sol. Depending on the difficulty of m
   - (10 mins) create JokeList component and /api/jokes endpoint that returns 10 jokes
   - (30 mins) create /api/jokes/random endpoint and fetch one random joke every 5 secs. Turn fetching on/off with JokeTimer component
   - (45 mins) add ability to favorite up to 10 jokes, store them in localStorage.
+- monday 23 november
+  - (30 mins) Do not retrieve jokes of the following categories from the Chuck Norris API: `explicit`, `political`, and `religion`. These are more likely to be inappropriate or sensitive to others.
+  - (1hr 30 mins) Research and implement joke filtering via LLM from OpenRouter.
+    - researched with Codex how to implement a joke filtering system.
+    - researched which model to use, landed upon a model that supports structured outputs. That way we get a reliable JSON structure
 
 ## Considerations / decisions
 
