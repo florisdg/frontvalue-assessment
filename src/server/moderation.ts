@@ -21,7 +21,7 @@ type OpenRouterChatCompletion = {
   }[]
 }
 
-// use gemini-3.1-flash-lite for joke filtering because it is fast and cheap, and because it supports 
+// use gemini-3.1-flash-lite for joke filtering because it is fast and cheap, and because it supports
 // structured output with json_schema and types, which is more reliable than parsing free-form text
 const MODEL = 'google/gemini-3.1-flash-lite'
 
