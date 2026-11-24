@@ -1,6 +1,8 @@
 # frontvalue-assessment
 
-React frontend lives in `src/client`. The standalone Express API backend lives in `src/server`.
+See [NOTES.md](NOTES.md) for the work log and more on the decisions made during development.
+
+The React frontend lives in `src/client` and the Express API in `src/server`.
 
 ## Run locally
 
@@ -16,16 +18,23 @@ pnpm dev
 
 Open the URL printed by Vite. On page load the client fetches `GET /api/jokes` through Vite's proxy to Express on port 3000. Express returns ten random Chuck Norris jokes approved for a workplace audience by Gemini 3.1 Flash Lite via OpenRouter.
 
-## Build
+## Serve the production build
+
+After installing dependencies and setting the OpenRouter key, run from the project root:
 
 ```sh
-pnpm --filter @frontvalue/client build
-pnpm --filter @frontvalue/server build
+pnpm serve:prod
 ```
 
-`pnpm build` builds both packages. `pnpm start` runs the compiled Express API on port 3000.
+Open <http://localhost:3000>. Express serves the Vite build and handles `/api` on the same port.
 
-For production, serve `src/client/dist` from a static host and forward `/api` requests to the Express API.
+`pnpm build` writes the client and server builds to `src/client/dist` and `src/server/dist`. Run `pnpm start` to serve an existing build.
+
+## Key decisions
+
+- **Vite and Express.** Vite keeps the React setup small. A thin Express API keeps the OpenRouter key on the server.
+- **Moderation.** I chose Gemini 3.1 Flash Lite for its low cost and structured output. The server matches verdicts by joke ID and returns only jokes the model explicitly approves.
+- **Favorites.** Favorites only need to persist across reloads in the same browser, so `localStorage` is enough.
 
 ## Checks
 

@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "pnpm -r --parallel run dev",
     "build": "pnpm -r run build",
-    "start": "pnpm --filter @frontvalue/server start",
+    "start": "pnpm --filter @frontvalue/server start --serve-client",
+    "serve:prod": "pnpm build && pnpm start",
     "test": "pnpm -r run test",
     "lint": "oxlint",
     "format": "oxfmt --write .",
