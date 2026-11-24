@@ -23,7 +23,9 @@ While developing I used Codex with GPT 6.2 Sol. Depending on the difficulty of m
     - researched with Codex how to implement a joke filtering system.
     - researched which model to use, landed upon a model that supports structured outputs. That way we get a reliable JSON structure
   - (15 mins) add command `pnpm run serve:prod` to compile production build and let express.js serve the client bundle.
-
+- tuesday 24 november
+  - (15 mins) add Github Action workflow that runs code checks and builds the code
+  
 ## Considerations / decisions
 
 - To keep project simple and small size no fetching library or state management library was used for React. Instead, API's are consumed with basic `fetch()` and React's builtin state management `useState()`. On a larger project I recommend using a state management library and fetching library. (I personally like Zustand for state and TanStack Query for fetching)
